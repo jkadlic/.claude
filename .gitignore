@@ -1,0 +1,12 @@
+# Ignore everything by default
+*
+
+# Then opt in to what you want to keep
+!.gitignore
+!CLAUDE.md
+!settings.json
+!settings.example.jsonc
+!agents/
+!agents/**
+!statusline.sh
+!README.md

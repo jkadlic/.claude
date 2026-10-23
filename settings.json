@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "cleanupPeriodDays": 90,
+  "permissions": {
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)"
+    ],
+    "ask": [
+      "Bash(git push *)"
+    ],
+    "defaultMode": "auto"
+  },
+  "model": "opus",
+  "skillOverrides": {
+    "anthropic-skills:built-in-browser": "off",
+    "anthropic-skills:computer-use": "off",
+    "anthropic-skills:morning": "off",
+    "anthropic-skills:import-memory": "off",
+    "anthropic-skills:docs": "off",
+    "anthropic-skills:docx": "off",
+    "anthropic-skills:pptx": "off",
+    "anthropic-skills:xlsx": "off",
+    "anthropic-skills:pdf": "off",
+    "anthropic-skills:google-workspace": "off",
+    "anthropic-skills:deep-research": "off"
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude Code needs your attention\" with title \"Claude Code\" sound name \"Glass\"'"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  },
+  "enabledPlugins": {
+    "tutor@jkadlic": true
+  },
+  "extraKnownMarketplaces": {
+    "jkadlic": {
+      "source": {
+        "source": "github",
+        "repo": "jkadlic/claude-plugins"
+      }
+    }
+  },
+  "feedbackDrafts": "off",
+  "modelSettings": {
+    "claude-opus-5": {
+      "effortLevel": "high"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    }
+  },
+  "autoUpdatesChannel": "latest",
+  "tui": "default",
+  "editorMode": "normal",
+  "autoCompactEnabled": false,
+  "idleCompaction": false,
+  "autoContinueAtUsageLimit": false,
+  "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true,
+  "autoMode": {
+    "soft_deny": [
+      "$defaults"
+    ],
+    "environment": [
+      "This is my personal development machine.",
+      "New projects are created in ~/.projects. Editing and testing code there is routine.",
+      "~/.claude is my Claude Code config repo. Editing memory files under ~/.claude/projects/*/memory is routine.",
+      "My GitHub account is jkadlic, and the jkadlic plugin marketplace is mine."
+    ]
+  },
+  "voiceEnabled": false,
+  "attribution": {
+    "sessionUrl": false
+  },
+  "sandbox": {
+    "enabled": true,
+    "excludedCommands": ["docker *"]
+  }
+}

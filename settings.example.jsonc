@@ -1,0 +1,196 @@
+// An annotated reference of the Claude Code settings that a personal setup is likely to use.
+//
+// This file is a reference only, and Claude Code never reads it. Live settings go in
+// ~/.claude/settings.json, which must be strict JSON with no comments and no trailing commas.
+// To use a setting, copy its line into settings.json and remove the comment.
+//
+// Each note gives a setting's documented default when the settings reference states one. A
+// setting without a default note is unset unless you set it. Values in the examples are
+// illustrative, and a value is only the default when the note says so.
+//
+// Settings that only an organization can manage are left out. So are the app-state keys that
+// live in ~/.claude.json, such as autoConnectIde and diffTool.
+//
+// When the same setting is set in more than one place, the highest of these wins: managed
+// settings, then the --settings flag, then .claude/settings.local.json, then
+// .claude/settings.json, and finally ~/.claude/settings.json. Array settings, such as
+// permissions.allow, are merged across all of them instead.
+//
+// The full list, with details for each setting, is at
+// https://code.claude.com/docs/en/settings-reference. Run `claude doctor` to validate your
+// settings, and `/status` to see which settings files loaded.
+//
+// The comments below this header are short fragments rather than full sentences, so that
+// each setting fits on one line.
+
+{
+  // ---------------------------------------------------------------- GENERAL
+  // "$schema": "https://json.schemastore.org/claude-code-settings.json",  // editor autocomplete + validation
+
+  // ---------------------------------------------------------------- MODEL & RESPONSES
+  // "model": "sonnet",                       // model for new sessions; alias or full ID. Unset = account default
+  // "effortLevel": "high",                   // low | medium | high | xhigh
+  // "modelSettings": { "claude-opus-5-5": { "effortLevel": "high", "maxEffortLevel": "xhigh" } },  // per-model effort, cap, autoCompactWindow
+  // "maxEffortLevel": "high",                // effort cap: low | medium | high | xhigh | max ("max" = no cap)
+  // "fallbackModel": ["sonnet"],             // backups tried in order when the primary is overloaded (max 3)
+  // "alwaysThinkingEnabled": false,          // false turns extended thinking off. Unset = on
+  // "showThinkingSummaries": false,          // full thinking summaries on Ctrl+O. Default: false
+  // "fastMode": false,                       // fast mode (Opus only); /fast writes this. Unset = off
+  // "fastModePerSessionOptIn": false,        // require /fast each session. Default: false
+  // "ultracode": false,                      // plan a workflow for every substantive task. Unset = off
+  // "language": "english",                   // response language, free text. Unset = English
+  // "outputStyle": "Explanatory",            // saved tone and format instructions
+  // "advisorModel": "opus",                  // advisor tool model: fable | opus | sonnet | full ID. Unset = advisor off
+  // "switchModelsOnFlag": true,              // switch model when a safety classifier flags a request. Unset = switches
+  // "promptCacheTtl": "5m",                  // 5m | 1h cache lifetime, main conversation
+  // "subagentPromptCacheTtl": "5m",          // same, for subagents and helpers
+
+  // ---------------------------------------------------------------- PERMISSIONS
+  // "permissions": {
+  //   "allow": ["Bash(npm run *)", "Bash(git diff *)"],   // run without asking
+  //   "ask":   ["Bash(git push *)"],                      // always prompt
+  //   "deny":  ["Read(**/.env)", "Read(**/.env.*)"],      // always block; checked first
+  //   "additionalDirectories": ["../docs/"],              // extra directories Claude may access
+  //   "defaultMode": "default",                           // default | acceptEdits | plan | auto | dontAsk | bypassPermissions. Default: default
+  //                                                       //   auto and bypassPermissions are ignored in project and local files
+  //   "blockReadsOutsideWorkingDirectories": false,       // file tools refuse reads outside working dirs. false = unset
+  //   "disableBypassPermissionsMode": "disable"           // remove bypass mode entirely
+  // },
+  // "disableAutoMode": "disable",            // remove auto mode from the Shift+Tab cycle
+  // "autoMode": {                            // extend the auto mode classifier (user and managed only)
+  //   "environment": [], "allow": [], "soft_deny": ["$defaults"], "hard_deny": [],  // "$defaults" keeps the built-ins
+  //   "classifyAllShell": false              // send every shell command to the classifier. Default: false
+  // },
+  // "useAutoModeDuringPlan": true,           // classifier reviews shell commands in plan mode. Default: true
+  // "skipAutoPermissionPrompt": false,       // skip the first-run auto mode notice. false = unset
+  // "skipDangerousModePermissionPrompt": false,  // skip the bypassPermissions confirmation. false = unset
+
+  // ---------------------------------------------------------------- SANDBOX (Bash isolation on macOS, Linux, WSL2)
+  // "sandbox": {
+  //   "enabled": false,                      // turn on Bash sandboxing. Default: false
+  //   "failIfUnavailable": false,            // refuse to start when the sandbox can't run. Default: false
+  //   "autoAllowBashIfSandboxed": true,      // no permission prompt for sandboxed commands. Default: true
+  //   "allowUnsandboxedCommands": true,      // allow a retry outside the sandbox when blocked. Default: true
+  //   "excludedCommands": ["docker *"],      // run outside the sandbox; permission checks still apply
+  //   "filesystem": { "allowWrite": ["/tmp/build"], "denyWrite": [], "denyRead": [], "allowRead": [] },
+  //   "network": { "allowedDomains": ["registry.npmjs.org"], "deniedDomains": [], "allowLocalBinding": false,
+  //                "allowUnixSockets": [], "allowAllUnixSockets": false, "httpProxyPort": 8080, "socksProxyPort": 1080 },
+  //   "credentials": { "envVars": [], "files": [] },   // hide or mask secrets inside the sandbox
+  //   "ignoreViolations": {},                // silence expected violation reports
+  //   "enableWeakerNestedSandbox": false,    // Linux sandbox inside an unprivileged container
+  //   "enableWeakerNetworkIsolation": false  // macOS: lets gh, gcloud, terraform verify TLS behind a MITM proxy
+  // },
+
+  // ---------------------------------------------------------------- MEMORY & CONTEXT
+  // "env": { "SOME_VAR": "value" },          // env vars for every session and subprocess; never secrets in a public repo
+  // "autoCompactEnabled": true,              // automatic compaction. Default: true
+  // "autoCompactWindow": 200000,             // tokens before compacting, 100000–1000000
+  // "autoMemoryEnabled": true,               // auto memory. Default: true
+  // "autoMemoryDirectory": "~/.claude/memory",  // auto memory location; not accepted in project settings
+  // "claudeMdExcludes": ["**/vendor/CLAUDE.md"], // CLAUDE.md files to skip
+  // "fileCheckpointingEnabled": true,        // file snapshots that /rewind restores. Default: true
+  // "plansDirectory": "~/.claude/plans",     // where plan mode writes plans. Default: ~/.claude/plans
+  // "bashOutputMaxChars": 30000,             // inline output kept from a successful command, 4000–128000. Unset = 30000
+  // "skillListingBudgetFraction": 0.01,      // context share for the skill listing, >0 to 1. Default: 0.01
+  // "skillListingMaxDescChars": 1536,        // per-skill description cap in the listing. Default: 1536
+
+  // ---------------------------------------------------------------- PRIVACY & RETENTION
+  // "cleanupPeriodDays": 30,                 // days to keep transcripts, minimum 1. Default: 30
+  // "desktopSessionCleanupPeriodDays": 30,   // same for Desktop and Cowork transcripts (user and managed). Default: 0 = no limit
+  // "feedbackSurveyRate": 0.05,              // how often the session quality survey appears, 0 to 1. Unset = remotely set rate
+  // "feedbackDrafts": "notify",              // notify | quiet | off (user and managed). Default: notify
+  // "skipWebFetchPreflight": false,          // skip the WebFetch hostname check when Anthropic is unreachable. Default: false
+
+  // ---------------------------------------------------------------- GIT
+  // "attribution": { "commit": "", "pr": "", "sessionUrl": false },  // "" hides a trailer or line; false drops the session link
+  // "includeGitInstructions": true,          // built-in commit and PR instructions. Unset = on; false removes them
+
+  // ---------------------------------------------------------------- HOOKS & WORKFLOWS
+  // "hooks": { "PreToolUse": [ { "matcher": "Bash", "hooks": [ { "type": "command", "command": "~/.claude/hooks/check.sh" } ] } ] },
+  // "disableAllHooks": false,                // also disables a custom statusLine and fileSuggestion. Default: false
+  // "enableWorkflows": true,                 // turn dynamic workflows on or off, overriding the plan's default
+  // "disableWorkflows": false,               // turn workflows off for everyone. Default: false
+  // "workflowKeywordTriggerEnabled": true,   // the word "ultracode" starts a workflow. Unset = on
+  // "workflowSizeGuideline": "medium",       // small (<5 agents) | medium (<10) | large (<50) | unrestricted. Default: medium (small on Pro)
+
+  // ---------------------------------------------------------------- PLUGINS & SKILLS
+  // "enabledPlugins": { "code-formatter@acme-tools": true },  // turn plugins on or off per scope
+  // "extraKnownMarketplaces": { "acme-tools": { "source": { "source": "github", "repo": "acme-corp/claude-plugins" } } },
+  // "pluginConfigs": {},                     // saved plugin config dialog answers (user and managed)
+  // "skillOverrides": { "anthropic-skills:docx": "off" },  // hide or collapse a skill without editing its SKILL.md
+  // "disableBundledSkills": false,           // turn off built-in skills and workflows. Default: false
+  // "disableSkillShellExecution": false,     // block inline shell in skills and commands. Default: false
+  // "syncClaudeAiSkills": true,              // load the skills enabled on your claude.ai account. Unset = on
+  // "syncClaudeAiPlugins": true,             // same, for plugins. Unset = on
+
+  // ---------------------------------------------------------------- MCP
+  // "enabledMcpjsonServers": ["github"],     // approve specific servers from a project's .mcp.json
+  // "disabledMcpjsonServers": [],            // reject specific .mcp.json servers
+  // "enableAllProjectMcpServers": false,     // approve every .mcp.json server without a prompt. Default: false; leave off
+  // "disableClaudeAiConnectors": false,      // don't fetch claude.ai connectors. Default: false
+
+  // ---------------------------------------------------------------- AGENTS, SESSIONS, WORKTREES
+  // "agent": "code-reviewer",                // start every session as this subagent
+  // "teammateMode": "in-process",            // in-process | auto | tmux | iterm2. Default: in-process
+  // "disableAgentView": false,               // turn off background agents and agent view. Default: false
+  // "crossSessionInbound": "accept",         // accept | hold | refuse messages from other sessions. Unset = decided per message
+  // "isolatePeerMachines": false,            // ask before messaging a session on another machine. Unset = no prompt
+  // "worktree": {
+  //   "baseRef": "fresh",                    // fresh (remote default branch) | head (local HEAD). Default: fresh
+  //   "bgIsolation": "worktree",             // worktree | none (background sessions edit the working copy). Default: worktree
+  //   "sparsePaths": ["src/"],               // sparse checkout directories for each worktree
+  //   "symlinkDirectories": ["node_modules"] // symlink large directories instead of copying them
+  // },
+
+  // ---------------------------------------------------------------- INTERFACE & TERMINAL
+  // "theme": "dark",                         // built-in (dark, light, light-daltonized, ...) or custom
+  // "editorMode": "normal",                  // normal | vim. Default: normal
+  // "tui": "fullscreen",                     // default | fullscreen renderer. Unset = chosen for you
+  // "viewMode": "default",                   // default | verbose | focus. Unset = verbose setting and last /focus apply
+  // "verbose": false,                        // full tool output; viewMode wins if both are set. Default: false
+  // "statusLine": { "type": "command", "command": "~/.claude/statusline.sh", "padding": 2 },  // custom status line
+  // "subagentStatusLine": {},                // rewrite subagent task rows with a command
+  // "fileSuggestion": {},                    // custom command for @ file autocomplete
+  // "respectGitignore": true,                // keep gitignored files out of the @ picker. Unset = on
+  // "spinnerTipsEnabled": true,              // tips under the spinner; false hides them. Unset = on
+  // "spinnerTipsOverride": {},               // add or replace spinner tips
+  // "spinnerVerbs": {},                      // add or replace spinner verbs
+  // "showTurnDuration": true,                // "Cooked for …" duration; false hides it. Unset = on
+  // "showClearContextOnPlanAccept": false,   // "clear context" option on plan accept. Default: false
+  // "promptSuggestionEnabled": true,         // grayed-out prompt suggestions; false hides them. Unset = on
+  // "emojiCompletionEnabled": true,          // :shortcode: suggestions; false disables them. Unset = on
+  // "syntaxHighlightingDisabled": false,     // Default: false
+  // "autoScrollEnabled": true,               // follow new output in fullscreen. Default: true
+  // "wheelScrollAccelerationEnabled": true,  // mouse wheel acceleration in fullscreen. Unset = on
+  // "terminalProgressBarEnabled": true,      // terminal progress bar. Unset = on
+  // "terminalTitleFromRename": true,         // /rename and --name change the tab title. Unset = on
+  // "prefersReducedMotion": false,           // reduce spinner and shimmer animations. Default: false
+  // "axScreenReader": false,                 // screen-reader-friendly output. Default: false
+  // "maxProseWidth": 100,                    // cap prose width in wide terminals
+  // "defaultShell": "bash",                  // bash | powershell for !-prefixed commands. Default: bash
+  // "respondToBashCommands": true,           // Claude responds after a ! command; false stops it. Unset = on
+  // "bashEditDiffEnabled": false,            // record files a Bash command changed (user and managed). Unset = recorded in auto and bypassPermissions
+  // "preferredNotifChannel": "auto",         // auto | terminal_bell | iterm2 | iterm2_with_bell | kitty | ghostty | notifications_disabled. Default: auto
+  // "timeFormat": "24-hour",                 // auto | 12-hour | 24-hour | 24-hour-utc | strftime pattern with %. Default: auto
+  // "timeZone": "America/New_York",          // zone for displayed times. Unset = system zone
+  // "spellcheck": { "enabled": true, "checker": "auto" },  // aspell | hunspell | ispell | auto; needs an installed checker (user and managed). Unset = off
+  // "vimInsertModeRemaps": { "jj": "<Esc>" }, // two-key INSERT mode sequence to Escape, the only target (user and managed)
+  // "voice": { "enabled": true, "mode": "hold" },  // dictation; hold | tap, autoSubmit in hold mode only. Unset = off
+  // "askUserQuestionTimeout": "never",       // 60s | 5m | 10m | never before auto-continuing (user and managed). Default: never
+  // "autoContinueAtUsageLimit": true,        // continue when a usage limit resets (user and managed). Default: true
+  // "dialogExpiry": "5m",                    // 60s | 5m | 10m | never wait for a forwarded dialog (user and managed). Default: 5m
+
+  // ---------------------------------------------------------------- REMOTE, DESKTOP, NOTIFICATIONS
+  // "remoteControlAtStartup": false,         // connect Remote Control when a session starts. Unset = auto-connect default
+  // "disableRemoteControl": false,           // turn Remote Control off everywhere. Default: false
+  // "agentPushNotifEnabled": false,          // let Claude push-notify your phone. Default: false
+  // "inputNeededNotifEnabled": false,        // push when Claude is waiting on you. Default: false
+  // "awaySummaryEnabled": true,              // recap when you return to the terminal; false hides it. Unset = on
+  // "disableDeepLinkRegistration": false,    // don't register the claude-cli:// handler. Default: false
+  // "enableArtifact": true,                  // false turns the Artifact tool off, and nothing turns it back on. Unset = on
+  // "remote.defaultEnvironmentId": "env_...",// default cloud environment for `claude --cloud`
+
+  // ---------------------------------------------------------------- UPDATES
+  // "autoUpdatesChannel": "latest",          // latest | stable. Unset = latest
+  // "minimumVersion": "2.1.0"                // auto-update never installs below this
+}
