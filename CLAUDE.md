@@ -13,6 +13,7 @@ The purpose of a comment, of any kind, is to clarify something about the code th
 #### Commandments
 
 1. Write a comment only when the code isn't self-descriptive.
+    - Exception: docstrings are written even when the code is self-descriptive (see Docstrings).
 2. A comment reflects the code and what it implements, never the conversation it was written in.
 3. A comment covers only its own code and the code it directly references, never the code that calls it.
 4. A comment explains the code to its reader; it doesn't justify the code to a reviewer.
@@ -47,3 +48,11 @@ This comment is good for the following reasons:
 - It explains an ambiguity in the code itself. The `chmod` right after `mkdir(mode=...)` looks redundant, and the comment says why it's needed.
 - It covers only the code block that follows and what that code directly uses. It doesn't need to say who calls this code or why folders need this mode.
 - It's one plain sentence that reads correctly the first time: a cause, then what the code does about it.
+
+### Docstrings
+
+The purpose of a docstring is to document a module, class, function or method, both for readers of the code and for readers of generated documentation, who may never see the code.
+
+#### Commandments
+
+1. Every module, class, function and method has a docstring, even when its code is self-descriptive.
