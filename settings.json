@@ -1,12 +1,18 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "cleanupPeriodDays": 90,
+  "attribution": {
+    "sessionUrl": false
+  },
   "permissions": {
     "deny": [
       "Read(**/.env)",
-      "Read(**/.env.*)",
-      "Read(./.env)",
-      "Read(./.env.*)",
+      "Read(**/.env.local)",
+      "Read(**/.env.*.local)",
+      "Read(**/.env.development)",
+      "Read(**/.env.production)",
+      "Read(**/.env.staging)",
+      "Read(**/.env.test)",
       "Read(./secrets/**)"
     ],
     "ask": [
@@ -45,7 +51,8 @@
     "command": "~/.claude/statusline.sh"
   },
   "enabledPlugins": {
-    "tutor@jkadlic": true
+    "tutor@jkadlic": true,
+    "writing@jezweb-skills": true
   },
   "extraKnownMarketplaces": {
     "jkadlic": {
@@ -53,7 +60,20 @@
         "source": "github",
         "repo": "jkadlic/claude-plugins"
       }
+    },
+    "jezweb-skills": {
+      "source": {
+        "source": "github",
+        "repo": "jezweb/claude-skills"
+      }
     }
+  },
+  "sandbox": {
+    "enabled": true,
+    "excludedCommands": [
+      "gh *",
+      "docker *"
+    ]
   },
   "feedbackDrafts": "off",
   "modelSettings": {
@@ -83,12 +103,5 @@
       "My GitHub account is jkadlic, and the jkadlic plugin marketplace is mine."
     ]
   },
-  "voiceEnabled": false,
-  "attribution": {
-    "sessionUrl": false
-  },
-  "sandbox": {
-    "enabled": true,
-    "excludedCommands": ["docker *"]
-  }
+  "voiceEnabled": false
 }
