@@ -56,3 +56,34 @@ The purpose of a docstring is to document a module, class, function or method, b
 #### Commandments
 
 1. Every module, class, function and method has a docstring, even when its code is self-descriptive.
+    - When the code is self-descriptive, the docstring is one plain sentence. Don't pad it.
+2. A docstring is written for a reader who has never seen this codebase. When it uses a term that only this codebase uses, it says what the term means or uses a plain word instead.
+3. Every sentence has an explicit subject. A docstring names what it is talking about instead of using "it", "they" or "that one", unless exactly one noun could fit and it appears in the same or the previous sentence.
+4. A sentence never leaves out words that the grammar needs. "If exactly one has" and "otherwise all of them are" are not allowed.
+5. A sentence holds one idea. Each condition gets its own "If ..." sentence, in the order the code checks them.
+6. Docstrings use the active voice and say what the code does: "Returns the venue that...", not "The venue that... is returned".
+
+#### Examples
+
+Example of a bad docstring:
+```
+When several are, only the one with a show at the same venue on the same date as one of
+the listing's shows is returned, if exactly one has. Otherwise all of them are.
+```
+
+This docstring is bad for the following reasons:
+- "Several are" and "exactly one has" leave out the words that say what is meant. The reader can't tell what "several" refers to.
+- It uses the passive voice, so it never says what returns the result.
+- It packs two conditions and two outcomes into two sentences.
+
+Example of a good docstring:
+```
+If several candidates qualify, keeps only those that have a show at the same venue on the
+same date as one of the shows belonging to the listing. If exactly one candidate remains, return it.
+Otherwise, return all of the original candidates.
+```
+
+This docstring is good for the following reasons:
+- It names what each condition applies to, so the reader doesn't have to work it out.
+- Each sentence has one condition and one outcome, in the order the code checks them.
+- It says what the code does, in the active voice.
