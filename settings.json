@@ -52,7 +52,6 @@
   },
   "enabledPlugins": {
     "tutor@jkadlic": true,
-    "writing@jezweb-skills": true,
     "asd-ste100@asd-ste100-skill": true,
     "i-have-adhd@i-have-adhd": true
   },
@@ -61,12 +60,6 @@
       "source": {
         "source": "github",
         "repo": "jkadlic/claude-plugins"
-      }
-    },
-    "jezweb-skills": {
-      "source": {
-        "source": "github",
-        "repo": "jezweb/claude-skills"
       }
     },
     "asd-ste100-skill": {
