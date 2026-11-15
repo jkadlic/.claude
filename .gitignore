@@ -1,12 +1,19 @@
 # Ignore everything by default
 *
 
-# Then opt in to what you want to keep
+# Opt-in to files to keep
+
+# Structure
 !.gitignore
 !CLAUDE.md
 !settings.json
 !settings.example.jsonc
 !agents/
 !agents/**
-!statusline.sh
 !README.md
+
+# Customization
+!statusline.sh
+
+# Plugins / Skills / Agents
+!.i-have-adhd-always
